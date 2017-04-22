@@ -13,7 +13,8 @@ public class HUDHandler : MonoBehaviour
     private Slider ThirstSlider;
 
     private GameObject player;
-    
+
+    private PlayerHealth playerHealth;
     private PlayerHunger playerHunger;
     private static HUDHandler instance;
 
@@ -22,12 +23,14 @@ public class HUDHandler : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         instance = this;
+        playerHealth = player.GetComponent<PlayerHealth>();
         playerHunger = player.GetComponent<PlayerHunger>();
         UpdateUI();
     }
 
     public static void UpdateUI()
     {
+        instance.healthSlider.value = instance.playerHealth.GetHealth();
         instance.hungerSlider.value = instance.playerHunger.GetHunger();
     }
 }
