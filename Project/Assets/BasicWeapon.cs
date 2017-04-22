@@ -9,6 +9,10 @@ public class BasicWeapon : BasicPoolManager
     private Transform bulletSpawn;
     [SerializeField]
     private bool singleShot = true;
+    [SerializeField]
+    private float fireRate = 0.5f;
+
+    private bool canFire = true;
 
     // Use this for initialization
     void Start ()
@@ -19,32 +23,22 @@ public class BasicWeapon : BasicPoolManager
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        if(singleShot)
+        if (canFire)
         {
-            SingleShot();
-        }
-        else
-        {
-            RapidShot();
-        }
-    }
-    private void SingleShot()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Fire();
-        }
-    }
-    private void RapidShot()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            Fire();
+            if (singleShot)
+            {
+                SingleShot();
+            }
+            else
+            {
+                RapidShot();
+            }
         }
     }
 
     private void Fire()
     {
+        canFire = false;
         GameObject bullet = GetPooledItem();
 
         if (bullet != null)
@@ -53,5 +47,26 @@ public class BasicWeapon : BasicPoolManager
             bullet.transform.rotation = bulletSpawn.rotation;
             bullet.SetActive(true);
         }
+        Invoke("ReadyToFire", fireRate);
+    }
+
+    private void SingleShot()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Fire();
+        }
+    }
+
+    private void RapidShot()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            Fire();
+        }
+    }
+    private void ReadyToFire()
+    {
+        canFire = true;
     }
 }
