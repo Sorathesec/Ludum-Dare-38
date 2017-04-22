@@ -5,7 +5,7 @@ using UnityEngine;
 public class Row : MonoBehaviour
 {
     private WorldChunk[] chunks;
-    private int centerObject;
+    public int centerObject;
     public static int chunkSize;
     public int index = 0;
 
@@ -25,25 +25,49 @@ public class Row : MonoBehaviour
         }
     }
 
-    public void TryShift(int index)
+    public void TryShift(int newIndex)
     {
-        if (index != centerObject)
+        if (newIndex != centerObject)
         {
-            if (index == centerObject + 1 ||
-                index == (centerObject + 1) % chunks.Length)
+            if (newIndex == centerObject + 1 ||
+                newIndex == (centerObject + 1) % chunks.Length)
             {
-                MoveColumn(1);
+                MoveRight();
             }
             else
             {
-                MoveColumn(-1);
+                MoveLeft();
             }
         }
     }
-
-    public void TryShiftRow()
+    public void MoveRight()
     {
-        Wrapper.TryShiftRow(index);
+        int oldChunkIndex = centerObject - 2;
+        if (oldChunkIndex < 0)
+        {
+            oldChunkIndex += chunks.Length;
+        }
+        Transform currentChunk = chunks[oldChunkIndex].transform;
+        Vector3 newPos = currentChunk.position;
+        newPos.x += chunkSize * 5;
+        currentChunk.transform.position = newPos;
+        centerObject++;
+        centerObject = centerObject % chunks.Length;
+    }
+
+    public void MoveLeft()
+    {
+        int oldChunkIndex = centerObject + 2;
+        oldChunkIndex = oldChunkIndex % chunks.Length;
+        Transform currentChunk = chunks[oldChunkIndex].transform;
+        Vector3 newPos = currentChunk.position;
+        newPos.x -= chunkSize * 5;
+        currentChunk.transform.position = newPos;
+        centerObject--;
+        if (centerObject < 0)
+        {
+            centerObject += chunks.Length;
+        }
     }
 
     private void MoveColumn(int multiplier)
@@ -61,7 +85,7 @@ public class Row : MonoBehaviour
             oldChunkIndex = oldChunkIndex % chunks.Length;
         }
         Transform currentChunk = chunks[oldChunkIndex].transform;
-        Vector3 newPos = currentChunk.transform.position;
+        Vector3 newPos = currentChunk.position;
         newPos.x += chunkSize * 5 * multiplier;
         currentChunk.transform.position = newPos;
         centerObject += 1 * multiplier;

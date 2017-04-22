@@ -5,20 +5,13 @@ using UnityEngine;
 public class WorldChunk : MonoBehaviour
 {
     public int index = 0;
+    public Vector2 chunkIndex;
 
     private Row row;
 
     void Start()
     {
         row = transform.parent.GetComponent<Row>();
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Player")
-        {
-            Wrapper.TryShiftColumn(index);
-            Wrapper.TryShiftRow(row.index);
-        }
+        chunkIndex = new Vector2(index, row.index);
     }
 }

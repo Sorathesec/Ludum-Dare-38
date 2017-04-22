@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Vector2 currentChunk = new Vector2(2, 2);
     [SerializeField]
     private float speed = 1.0f;
     private Vector2 direction;
@@ -30,5 +31,13 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         theRigidbody.velocity = direction * speed;
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if(other.tag == "Chunk")
+        {
+            currentChunk = other.GetComponent<WorldChunk>().chunkIndex;
+        }
     }
 }
