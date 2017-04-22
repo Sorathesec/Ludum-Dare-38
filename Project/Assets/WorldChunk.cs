@@ -21,14 +21,6 @@ public class WorldChunk : MonoBehaviour
         row = transform.parent.GetComponent<Row>();
         chunkIndex = new Vector2(index, row.index);
     }
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.tag == "Player")
-        {
-            //Wrapper.TryShiftColumn(index);
-        }
-    }
-
 
     public BiomeType GetBiomeType()
     {

@@ -39,13 +39,17 @@ public class PlayerMovement : MonoBehaviour
     private BiomeType newBiome;
     void OnTriggerStay2D(Collider2D other)
     {
-        if(!triggering && other.tag == "Chunk")
+        if(other.tag == "Chunk")
         {
-            triggering = true;
-            WorldChunk chunk = other.GetComponent<WorldChunk>();
-            currentChunk = chunk.chunkIndex;
-            newBiome = chunk.GetBiomeType();
-            Invoke("BiomeChange", 0.1f);
+            if (!triggering)
+            {
+                triggering = true;
+                WorldChunk chunk = other.GetComponent<WorldChunk>();
+                currentChunk = chunk.chunkIndex;
+                newBiome = chunk.GetBiomeType();
+                Invoke("BiomeChange", 0.05f);
+                GetComponentInChildren<SwitchSprite>().ChangeSprite(newBiome);
+            }
         }
     }
 
