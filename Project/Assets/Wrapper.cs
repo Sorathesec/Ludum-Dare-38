@@ -4,64 +4,96 @@ using UnityEngine;
 
 public class Wrapper : MonoBehaviour
 {
-    public WorldChunk[] objects;
+    public Row[] rows;
     public int centerObject = 2;
     public int chunkSize = 2;
 
     private static Wrapper instance;
 
-	void Start ()
+    void Awake()
     {
         instance = this;
-        for (int i = 0; i < objects.Length; i++)
-        {
-            objects[i].index = i;
-        }
-	}
+    }
 
-    public static void TryShift(int index)
+    void Start()
     {
-        if(index != instance.centerObject)
+        rows = GetComponentsInChildren<Row>();
+        centerObject = rows.Length / 2;
+        if (centerObject == rows.Length / 2.0f)
         {
-            if(index == instance.centerObject + 1 || 
-                index == (instance.centerObject + 1) % instance.objects.Length)
+            centerObject--;
+        }
+        Row.chunkSize = chunkSize;
+        int i = 0;
+        foreach (Row row in rows)
+        {
+            row.index = i;
+            i++;
+        }
+    }
+    
+    void FixedUpdate()
+    {
+        Vector2 temp = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>().currentChunk;
+        if (temp != new Vector2(centerObject, rows[0].centerObject))
+        {
+            TryShiftColumn((int)temp.x);
+            TryShiftRow((int)temp.y);
+        }
+    }
+
+    public static void TryShiftColumn(int index)
+    {
+        foreach(Row row in instance.rows)
+        {
+            row.SendMessage("TryShift", index);
+        }        
+    }
+
+    public static void TryShiftRow(int index)
+    {
+        if (index != instance.centerObject)
+        {
+            if (index == instance.centerObject + 1 ||
+                index == (instance.centerObject + 1) % instance.rows.Length)
             {
-                instance.MoveRight();
+                instance.MoveUp();
             }
             else
             {
-                instance.MoveLeft();
+                instance.MoveDown();
             }
         }
     }
 
-    public void MoveRight()
+    private void MoveUp()
     {
         int oldChunkIndex = centerObject - 2;
         if (oldChunkIndex < 0)
         {
-            oldChunkIndex += objects.Length;
+            oldChunkIndex += rows.Length;
         }
-        Transform currentChunk = objects[oldChunkIndex].transform;
+        Transform currentChunk = rows[oldChunkIndex].transform;
         Vector3 newPos = currentChunk.position;
-        newPos.x += chunkSize * 5;
-        currentChunk.position = newPos;
+        newPos.y += chunkSize * 5;
+        currentChunk.transform.position = newPos;
         centerObject++;
-        centerObject = centerObject % objects.Length;
+        centerObject = centerObject % rows.Length;
     }
 
-    public void MoveLeft()
+    private void MoveDown()
     {
         int oldChunkIndex = centerObject + 2;
-        oldChunkIndex = oldChunkIndex % objects.Length;
-        Transform currentChunk = objects[oldChunkIndex].transform;
+        oldChunkIndex = oldChunkIndex % rows.Length;
+
+        Transform currentChunk = rows[oldChunkIndex].transform;
         Vector3 newPos = currentChunk.position;
-        newPos.x -= chunkSize * 5;
-        currentChunk.position = newPos;
+        newPos.y -= chunkSize * 5;
+        currentChunk.transform.position = newPos;
         centerObject--;
         if (centerObject < 0)
         {
-            centerObject += objects.Length;
+            centerObject += rows.Length;
         }
     }
 }
