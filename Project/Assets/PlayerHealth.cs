@@ -13,6 +13,10 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
     }
+    void Start()
+    {
+        HUDHandler.SetHealthMax(maxHealth);
+    }
     public void TakeDamage(int value)
     {
         currentHealth -= value;

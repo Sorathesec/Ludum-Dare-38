@@ -16,6 +16,10 @@ public class PlayerHunger : MonoBehaviour
         currentHunger = maxHunger;
         StartCoroutine(ReduceHunger());
 	}
+    void Start()
+    {
+        HUDHandler.SetHungerMax(maxHunger);
+    }
 	
 	private IEnumerator ReduceHunger ()
     {

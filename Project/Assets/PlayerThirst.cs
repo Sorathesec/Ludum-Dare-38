@@ -18,6 +18,11 @@ public class PlayerThirst : MonoBehaviour
         StartCoroutine(ReduceThirst());
     }
 
+    void Start()
+    {
+        HUDHandler.SetThirstMax(maxThirst);
+    }
+
     private IEnumerator ReduceThirst()
     {
         while (true)
