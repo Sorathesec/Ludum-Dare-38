@@ -10,11 +10,11 @@ public class HUDHandler : MonoBehaviour
     [SerializeField]
     private Slider hungerSlider;
     [SerializeField]
-    private Slider ThirstSlider;
+    private Slider thirstSlider;
 
     private GameObject player;
-    
-    private PlayerHunger playerHunger;
+
+    private PlayerHealth playerHealth;
     private static HUDHandler instance;
 
 	// Use this for initialization
@@ -22,12 +22,17 @@ public class HUDHandler : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         instance = this;
-        playerHunger = player.GetComponent<PlayerHunger>();
+        playerHealth = player.GetComponent<PlayerHealth>();
         UpdateUI();
     }
 
     public static void UpdateUI()
     {
-        instance.hungerSlider.value = instance.playerHunger.GetHunger();
+        instance.healthSlider.value = instance.playerHealth.GetHealth();
+    }
+
+    public static void SetThirstMax(int value)
+    {
+        instance.thirstSlider.maxValue = value;
     }
 }
