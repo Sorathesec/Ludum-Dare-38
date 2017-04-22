@@ -9,10 +9,18 @@ public class PlayerHunger : MonoBehaviour
     private int maxHunger = 100;
     [SerializeField]
     private int reductionRate = 1;
+    [SerializeField]
+    private int starvingDamage = 5;
+    [SerializeField]
+    private int starvingRate = 5;
+
     private int currentHunger;
+    private PlayerHealth health;
+    private bool isStarving = false;
 
     void Awake ()
     {
+        health = GetComponent<PlayerHealth>();
         currentHunger = maxHunger;
         StartCoroutine(ReduceHunger());
 	}
@@ -60,15 +68,33 @@ public class PlayerHunger : MonoBehaviour
         if (currentHunger == 0)
         {
             EventManager.TriggerEvent("Starving");
+            if (!isStarving)
+            {
+                isStarving = true;
+                StartCoroutine(Starving());
+            }
         }
         else if(currentHunger <= maxHunger / 5)
         {
             EventManager.TriggerEvent("Hungry");
+            if (isStarving)
+            {
+                isStarving = false;
+                StopCoroutine(Starving());
+            }
         }
         else
         {
             EventManager.TriggerEvent("NotHungry");
         }
         HUDHandler.UpdateUI();
+    }
+    private IEnumerator Starving()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(starvingRate);
+            health.TakeDamage(starvingDamage);
+        }
     }
 }
