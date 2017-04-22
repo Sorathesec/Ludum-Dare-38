@@ -4,53 +4,60 @@ using UnityEngine;
 
 public class Wrapper : MonoBehaviour
 {
-    public GameObject[] objects;
+    public WorldChunk[] objects;
     public int centerObject = 2;
     public int chunkSize = 2;
-	// Use this for initialization
+
+    private static Wrapper instance;
+
 	void Start ()
     {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        /*
-		if(Input.GetKeyDown(KeyCode.RightArrow))
+        instance = this;
+        for (int i = 0; i < objects.Length; i++)
         {
-            MoveRight();
+            objects[i].index = i;
         }
-        else if(Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            MoveLeft();
-        }
-        */
 	}
 
-    private void MoveRight()
+    public static void TryShift(int index)
+    {
+        if(index != instance.centerObject)
+        {
+            if(index == instance.centerObject + 1 || 
+                index == (instance.centerObject + 1) % instance.objects.Length)
+            {
+                instance.MoveRight();
+            }
+            else
+            {
+                instance.MoveLeft();
+            }
+        }
+    }
+
+    public void MoveRight()
     {
         int oldChunkIndex = centerObject - 2;
         if (oldChunkIndex < 0)
         {
             oldChunkIndex += objects.Length;
         }
-        GameObject currentChunk = objects[oldChunkIndex];
-        Vector3 newPos = currentChunk.transform.position;
+        Transform currentChunk = objects[oldChunkIndex].transform;
+        Vector3 newPos = currentChunk.position;
         newPos.x += chunkSize * 5;
-        currentChunk.transform.position = newPos;
+        currentChunk.position = newPos;
         centerObject++;
         centerObject = centerObject % objects.Length;
     }
 
-    private void MoveLeft()
+    public void MoveLeft()
     {
         int oldChunkIndex = centerObject + 2;
         oldChunkIndex = oldChunkIndex % objects.Length;
-        GameObject currentChunk = objects[oldChunkIndex];
-        Vector3 newPos = currentChunk.transform.position;
+        Transform currentChunk = objects[oldChunkIndex].transform;
+        Vector3 newPos = currentChunk.position;
         newPos.x -= chunkSize * 5;
-        currentChunk.transform.position = newPos;
+        currentChunk.position = newPos;
         centerObject--;
         if (centerObject < 0)
         {
