@@ -16,6 +16,7 @@ public class Wrapper : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        /*
 		if(Input.GetKeyDown(KeyCode.RightArrow))
         {
             MoveRight();
@@ -24,6 +25,7 @@ public class Wrapper : MonoBehaviour
         {
             MoveLeft();
         }
+        */
 	}
 
     private void MoveRight()
