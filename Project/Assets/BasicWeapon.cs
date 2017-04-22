@@ -13,10 +13,15 @@ public class BasicWeapon : BasicPoolManager
     private float fireRate = 0.5f;
     [SerializeField]
     private int clipSize = 10;
+    [SerializeField]
+    private KeyCode reloadKey = KeyCode.R;
+    [SerializeField]
+    private float reloadTime = 1.0f;
 
     private int bulletsInClip = 0;
 
     private bool canFire = true;
+    private bool reloading = false;
 
     // Use this for initialization
     void Start ()
@@ -29,15 +34,22 @@ public class BasicWeapon : BasicPoolManager
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        if (canFire && bulletsInClip > 0)
+        if (!reloading)
         {
-            if (singleShot)
+            if (bulletsInClip == 0)
             {
-                SingleShot();
+                TryReload();
             }
-            else
+            else if (canFire)
             {
-                RapidShot();
+                if (singleShot)
+                {
+                    SingleShot();
+                }
+                else
+                {
+                    RapidShot();
+                }
             }
         }
     }
@@ -72,8 +84,27 @@ public class BasicWeapon : BasicPoolManager
             Fire();
         }
     }
+
     private void ReadyToFire()
     {
         canFire = true;
+    }
+
+    private void TryReload()
+    {
+        if(Input.GetMouseButton(0) ||
+            Input.GetKeyDown(reloadKey))
+        {
+            Invoke("Reload", reloadTime);
+            reloading = true;
+            print("Reloading");
+        }
+    }
+
+    private void Reload()
+    {
+        bulletsInClip = clipSize;
+        print("Reloaded");
+        reloading = false;
     }
 }
