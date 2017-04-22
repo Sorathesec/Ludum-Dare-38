@@ -8,22 +8,25 @@ public enum BiomeType
 }
 public class WorldChunk : MonoBehaviour
 {
-    public int index = 0;
-    public Vector2 chunkIndex;
+    [SerializeField]
+    private Vector2 chunkIndex;
     [SerializeField]
     private BiomeType biome;
-    public bool inChunk = false;
-
+    [SerializeField]
     private Row row;
 
     void Start()
     {
         row = transform.parent.GetComponent<Row>();
-        chunkIndex = new Vector2(index, row.index);
     }
 
     public BiomeType GetBiomeType()
     {
         return biome;
+    }
+    
+    public Vector2 GetChunkIndex()
+    {
+        return chunkIndex;
     }
 }

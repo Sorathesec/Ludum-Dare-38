@@ -4,27 +4,14 @@ using UnityEngine;
 
 public class Row : MonoBehaviour
 {
+    [SerializeField]
     private WorldChunk[] chunks;
-    public int centerObject;
+    [SerializeField]
+    private int centerObject = 2;
+    [SerializeField]
+    private int index = 0;
     public static float chunkSize;
-    public int index = 0;
-
-    // Use this for initialization
-    void Start()
-    {
-        chunks = GetComponentsInChildren<WorldChunk>();
-
-        centerObject = chunks.Length / 2;
-        if (centerObject == chunks.Length / 2.0f)
-        {
-            centerObject--;
-        }
-        for (int i = 0; i < chunks.Length; i++)
-        {
-            chunks[i].index = i;
-        }
-    }
-
+    
     public void TryShift(int newIndex)
     {
         if (newIndex != centerObject)
@@ -100,5 +87,10 @@ public class Row : MonoBehaviour
                 centerObject += chunks.Length;
             }
         }
+    }
+
+    public int GetCenterObject()
+    {
+        return centerObject;
     }
 }

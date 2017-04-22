@@ -13,29 +13,13 @@ public class Wrapper : MonoBehaviour
     void Awake()
     {
         instance = this;
-    }
-
-    void Start()
-    {
-        rows = GetComponentsInChildren<Row>();
-        centerObject = rows.Length / 2;
-        if (centerObject == rows.Length / 2.0f)
-        {
-            centerObject--;
-        }
         Row.chunkSize = chunkSize;
-        int i = 0;
-        foreach (Row row in rows)
-        {
-            row.index = i;
-            i++;
-        }
     }
     
     void FixedUpdate()
     {
         Vector2 temp = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>().currentChunk;
-        if (temp != new Vector2(centerObject, rows[0].centerObject))
+        if (temp != new Vector2(centerObject, rows[0].GetCenterObject()))
         {
             TryShiftColumn((int)temp.x);
             TryShiftRow((int)temp.y);

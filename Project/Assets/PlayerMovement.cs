@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 triggering = true;
                 WorldChunk chunk = other.GetComponent<WorldChunk>();
-                currentChunk = chunk.chunkIndex;
+                currentChunk = chunk.GetChunkIndex();
                 newBiome = chunk.GetBiomeType();
                 Invoke("BiomeChange", 0.05f);
                 GetComponentInChildren<SwitchSprite>().ChangeSprite(newBiome);
