@@ -4,58 +4,77 @@ using UnityEngine;
 
 public class Row : MonoBehaviour
 {
-    public Transform[] chunks;
+    private WorldChunk[] chunks;
     private int centerObject;
     public static int chunkSize;
+    public int index = 0;
 
     // Use this for initialization
     void Start()
     {
-        Transform[] temp = GetComponentsInChildren<Transform>();
-        chunks = new Transform[temp.Length - 1];
-        int i = 0;
-        foreach (Transform trans in temp)
-        {
-            if (trans != transform)
-            {
-                chunks[i] = trans;
-                i++;
-            }
-        }
-        print(chunks.Length);
+        chunks = GetComponentsInChildren<WorldChunk>();
+
         centerObject = chunks.Length / 2;
         if (centerObject == chunks.Length / 2.0f)
         {
             centerObject--;
         }
-    }
-    public void MoveRight()
-    {
-        int oldChunkIndex = centerObject - 2;
-        if (oldChunkIndex < 0)
+        for (int i = 0; i < chunks.Length; i++)
         {
-            oldChunkIndex += chunks.Length;
+            chunks[i].index = i;
         }
-        Transform currentChunk = chunks[oldChunkIndex];
-        Vector3 newPos = currentChunk.transform.position;
-        newPos.x += chunkSize * 5;
-        currentChunk.transform.position = newPos;
-        centerObject++;
-        centerObject = centerObject % chunks.Length;
     }
 
-    public void MoveLeft()
+    public void TryShift(int index)
     {
-        int oldChunkIndex = centerObject + 2;
-        oldChunkIndex = oldChunkIndex % chunks.Length;
-        Transform currentChunk = chunks[oldChunkIndex];
-        Vector3 newPos = currentChunk.transform.position;
-        newPos.x -= chunkSize * 5;
-        currentChunk.transform.position = newPos;
-        centerObject--;
-        if (centerObject < 0)
+        if (index != centerObject)
         {
-            centerObject += chunks.Length;
+            if (index == centerObject + 1 ||
+                index == (centerObject + 1) % chunks.Length)
+            {
+                MoveColumn(1);
+            }
+            else
+            {
+                MoveColumn(-1);
+            }
+        }
+    }
+
+    public void TryShiftRow()
+    {
+        Wrapper.TryShiftRow(index);
+    }
+
+    private void MoveColumn(int multiplier)
+    {
+        int oldChunkIndex = centerObject - (2 * multiplier);
+        if (multiplier > 0)
+        {
+            if (oldChunkIndex < 0)
+            {
+                oldChunkIndex += chunks.Length;
+            }
+        }
+        else
+        {
+            oldChunkIndex = oldChunkIndex % chunks.Length;
+        }
+        Transform currentChunk = chunks[oldChunkIndex].transform;
+        Vector3 newPos = currentChunk.transform.position;
+        newPos.x += chunkSize * 5 * multiplier;
+        currentChunk.transform.position = newPos;
+        centerObject += 1 * multiplier;
+        if (multiplier > 0)
+        {
+            centerObject = centerObject % chunks.Length;
+        }
+        else
+        {
+            if (centerObject < 0)
+            {
+                centerObject += chunks.Length;
+            }
         }
     }
 }

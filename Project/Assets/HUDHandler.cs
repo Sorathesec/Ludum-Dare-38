@@ -7,10 +7,6 @@ public class HUDHandler : MonoBehaviour
 {
     [SerializeField]
     private Slider healthSlider;
-    [SerializeField]
-    private Slider hungerSlider;
-    [SerializeField]
-    private Slider thirstSlider;
 
     private GameObject player;
 
@@ -31,8 +27,8 @@ public class HUDHandler : MonoBehaviour
         instance.healthSlider.value = instance.playerHealth.GetHealth();
     }
 
-    public static void SetThirstMax(int value)
+    public static void SetHealthMax(int value)
     {
-        instance.thirstSlider.maxValue = value;
+        instance.healthSlider.maxValue = value;
     }
 }
