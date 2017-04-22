@@ -7,6 +7,8 @@ public class BasicWeapon : BasicPoolManager
 {
     [SerializeField]
     private Transform bulletSpawn;
+    [SerializeField]
+    private bool singleShot = true;
 
     // Use this for initialization
     void Start ()
@@ -17,11 +19,29 @@ public class BasicWeapon : BasicPoolManager
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-		if(Input.GetMouseButtonDown(0))
+        if(singleShot)
+        {
+            SingleShot();
+        }
+        else
+        {
+            RapidShot();
+        }
+    }
+    private void SingleShot()
+    {
+        if (Input.GetMouseButtonDown(0))
         {
             Fire();
         }
-	}
+    }
+    private void RapidShot()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            Fire();
+        }
+    }
 
     private void Fire()
     {
