@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
         float y = Input.GetAxis("Vertical");
 
         direction = new Vector2(x, y);
+        direction.Normalize();
 	}
 
     void FixedUpdate()
