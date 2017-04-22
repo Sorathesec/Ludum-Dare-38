@@ -19,12 +19,15 @@ public class PlayerHealth : MonoBehaviour
     }
     public void TakeDamage(int value)
     {
-        currentHealth -= value;
-        if(currentHealth <= 0)
+        if (currentHealth > 0)
         {
-            EventManager.TriggerEvent("PlayerDead");
+            currentHealth -= value;
+            if (currentHealth <= 0)
+            {
+                EventManager.TriggerEvent("PlayerDead");
+            }
+            HUDHandler.UpdateUI();
         }
-        HUDHandler.UpdateUI();
     }
 
     public void Heal(int value)
