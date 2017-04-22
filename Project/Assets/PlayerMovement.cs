@@ -10,12 +10,14 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 direction;
 
     private Rigidbody2D theRigidbody;
+    private ChangeWeapon weapons;
     float x;
     float y;
 
 	void Start ()
     {
         theRigidbody = GetComponent<Rigidbody2D>();
+        weapons = GetComponent<ChangeWeapon>();
 	}
 	
 	// Update is called once per frame
@@ -33,11 +35,23 @@ public class PlayerMovement : MonoBehaviour
         theRigidbody.velocity = direction * speed;
     }
 
+    private bool triggering = false;
+    private BiomeType newBiome;
     void OnTriggerStay2D(Collider2D other)
     {
-        if(other.tag == "Chunk")
+        if(!triggering && other.tag == "Chunk")
         {
-            currentChunk = other.GetComponent<WorldChunk>().chunkIndex;
+            triggering = true;
+            WorldChunk chunk = other.GetComponent<WorldChunk>();
+            currentChunk = chunk.chunkIndex;
+            newBiome = chunk.GetBiomeType();
+            Invoke("BiomeChange", 0.1f);
         }
+    }
+
+    private void BiomeChange()
+    {
+        weapons.UpdateBiome(newBiome);
+        triggering = false;
     }
 }
