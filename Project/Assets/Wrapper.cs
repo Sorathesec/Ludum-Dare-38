@@ -6,7 +6,7 @@ public class Wrapper : MonoBehaviour
 {
     public Row[] rows;
     public int centerObject = 2;
-    public int chunkSize = 2;
+    public float chunkSize = 2;
 
     private static Wrapper instance;
 

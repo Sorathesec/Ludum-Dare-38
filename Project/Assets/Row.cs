@@ -6,7 +6,7 @@ public class Row : MonoBehaviour
 {
     private WorldChunk[] chunks;
     public int centerObject;
-    public static int chunkSize;
+    public static float chunkSize;
     public int index = 0;
 
     // Use this for initialization
