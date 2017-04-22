@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class Wrapper : MonoBehaviour
 {
-    public GameObject[] objects;
+    public Row[] rows;
     public int centerObject = 2;
     public int chunkSize = 2;
-	// Use this for initialization
-	void Start ()
-    {
-		
-	}
 	
+    void Start()
+    {
+        rows = GetComponentsInChildren<Row>();
+        centerObject = rows.Length / 2;
+        if(centerObject == rows.Length / 2.0f)
+        {
+            centerObject--;
+        }
+        Row.chunkSize = chunkSize;
+    }
+
 	// Update is called once per frame
 	void Update ()
     {
@@ -24,35 +30,59 @@ public class Wrapper : MonoBehaviour
         {
             MoveLeft();
         }
+        else if(Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            MoveUp();
+        }
+        else if(Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            MoveDown();
+        }
 	}
 
     private void MoveRight()
     {
-        int oldChunkIndex = centerObject - 2;
-        if (oldChunkIndex < 0)
+        foreach(Row row in rows)
         {
-            oldChunkIndex += objects.Length;
+            row.MoveRight();
         }
-        GameObject currentChunk = objects[oldChunkIndex];
-        Vector3 newPos = currentChunk.transform.position;
-        newPos.x += chunkSize * 5;
-        currentChunk.transform.position = newPos;
-        centerObject++;
-        centerObject = centerObject % objects.Length;
     }
 
     private void MoveLeft()
     {
-        int oldChunkIndex = centerObject + 2;
-        oldChunkIndex = oldChunkIndex % objects.Length;
-        GameObject currentChunk = objects[oldChunkIndex];
+        foreach (Row row in rows)
+        {
+            row.MoveLeft();
+        }
+    }
+
+    private void MoveUp()
+    {
+        int oldChunkIndex = centerObject - 2;
+        if (oldChunkIndex < 0)
+        {
+            oldChunkIndex += rows.Length;
+        }
+        Transform currentChunk = rows[oldChunkIndex].transform;
         Vector3 newPos = currentChunk.transform.position;
-        newPos.x -= chunkSize * 5;
+        newPos.y += chunkSize * 5;
+        currentChunk.transform.position = newPos;
+        centerObject++;
+        centerObject = centerObject % rows.Length;
+    }
+
+    private void MoveDown()
+    {
+        int oldChunkIndex = centerObject + 2;
+        oldChunkIndex = oldChunkIndex % rows.Length;
+        Transform currentChunk = rows[oldChunkIndex].transform;
+        Vector3 newPos = currentChunk.transform.position;
+        newPos.y -= chunkSize * 5;
         currentChunk.transform.position = newPos;
         centerObject--;
         if (centerObject < 0)
         {
-            centerObject += objects.Length;
+            centerObject += rows.Length;
         }
     }
 }
