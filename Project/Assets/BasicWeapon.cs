@@ -17,6 +17,8 @@ public class BasicWeapon : BasicPoolManager
     private KeyCode reloadKey = KeyCode.R;
     [SerializeField]
     private float reloadTime = 1.0f;
+    [SerializeField]
+    private float spreadAmout = 5.0f;
 
     private int bulletsInClip = 0;
 
@@ -58,11 +60,16 @@ public class BasicWeapon : BasicPoolManager
     {
         canFire = false;
         GameObject bullet = GetPooledItem();
+        Transform realSpawn = bulletSpawn;
+        
+        float randomSpread = Random.Range(-spreadAmout, spreadAmout);
+        
+        realSpawn.localRotation = Quaternion.Euler(0.0f, 0.0f, randomSpread);
 
         if (bullet != null)
         {
-            bullet.transform.position = bulletSpawn.position;
-            bullet.transform.rotation = bulletSpawn.rotation;
+            bullet.transform.position = realSpawn.position;
+            bullet.transform.rotation = realSpawn.rotation;
             bullet.SetActive(true);
         }
         bulletsInClip--;
