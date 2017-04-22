@@ -16,6 +16,7 @@ public class HUDHandler : MonoBehaviour
 
     private PlayerHealth playerHealth;
     private PlayerHunger playerHunger;
+    private PlayerThirst playerThirst;
     private static HUDHandler instance;
 
 	// Use this for initialization
@@ -25,6 +26,7 @@ public class HUDHandler : MonoBehaviour
         instance = this;
         playerHealth = player.GetComponent<PlayerHealth>();
         playerHunger = player.GetComponent<PlayerHunger>();
+        playerThirst = player.GetComponent<PlayerThirst>();
         UpdateUI();
     }
 
@@ -32,5 +34,6 @@ public class HUDHandler : MonoBehaviour
     {
         instance.healthSlider.value = instance.playerHealth.GetHealth();
         instance.hungerSlider.value = instance.playerHunger.GetHunger();
+        instance.ThirstSlider.value = instance.playerThirst.GetThirst();
     }
 }
