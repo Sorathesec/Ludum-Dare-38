@@ -11,6 +11,10 @@ public class BasicWeapon : BasicPoolManager
     private bool singleShot = true;
     [SerializeField]
     private float fireRate = 0.5f;
+    [SerializeField]
+    private int clipSize = 10;
+
+    private int bulletsInClip = 0;
 
     private bool canFire = true;
 
@@ -18,12 +22,14 @@ public class BasicWeapon : BasicPoolManager
     void Start ()
     {
         CreatePool();
+
+        bulletsInClip = clipSize;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        if (canFire)
+        if (canFire && bulletsInClip > 0)
         {
             if (singleShot)
             {
@@ -47,6 +53,7 @@ public class BasicWeapon : BasicPoolManager
             bullet.transform.rotation = bulletSpawn.rotation;
             bullet.SetActive(true);
         }
+        bulletsInClip--;
         Invoke("ReadyToFire", fireRate);
     }
 
