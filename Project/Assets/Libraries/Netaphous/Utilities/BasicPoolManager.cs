@@ -4,15 +4,14 @@ namespace Netaphous.Utilities
 {
     public abstract class BasicPoolManager : MonoBehaviour
     {
-        // Public variables
-        // To be set in the editor
-
         // Private variables
         // Can be accessed in the editor
         [SerializeField]
         protected int[] pooledAmounts;
         [SerializeField]
         protected GameObject[] objectPrefab;
+        [SerializeField]
+        private bool poolAsChildren = false;
 
         // Script logic
         private GameObject[] objectPool;
@@ -35,6 +34,10 @@ namespace Netaphous.Utilities
                 for (int j = 0; j < pooledAmounts[i]; j++)
                 {
                     objectPool[count] = Instantiate(objectPrefab[i]) as GameObject;
+                    if (poolAsChildren)
+                    {
+                        objectPool[count].transform.parent = transform;
+                    }
                     objectPool[count].SetActive(false);
                     count++;
                 }

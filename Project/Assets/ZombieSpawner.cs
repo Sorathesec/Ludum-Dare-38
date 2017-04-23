@@ -7,7 +7,11 @@ public class ZombieSpawner : BasicPoolManager
 {
     [SerializeField]
     private float spawnRate = 2.0f;
+    [SerializeField]
+    private int waveSize = 3;
     private Transform[] spawnPoints;
+
+
     // Use this for initialization
     void Start()
     {
@@ -18,13 +22,15 @@ public class ZombieSpawner : BasicPoolManager
         {
             spawnPoints[i] = temp[i].transform;
         }
-        InvokeRepeating("TrySpawnZombie", 3.0f, spawnRate);
+        InvokeRepeating("SpawnMultipleZombies", 3.0f, spawnRate);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SpawnMultipleZombies()
     {
-
+        for(int i = 0; i < waveSize; i++)
+        {
+            TrySpawnZombie();
+        }
     }
 
     private void TrySpawnZombie()
