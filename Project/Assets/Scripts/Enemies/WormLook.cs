@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class SmoothLookAtTarget2D : MonoBehaviour
+public class WormLook : MonoBehaviour
 {
-    // Public variables
-    // To be set in the editor
-    public Transform target;
-    public Camera theCamera;
+    private Transform target;
     public float smoothing = 5.0f;
     public float adjustmentAngle = 0.0f;
 
@@ -17,9 +15,14 @@ public class SmoothLookAtTarget2D : MonoBehaviour
     Vector3 difference;
     Quaternion newRot;
 
+    void Start()
+    {
+        target = GameObject.FindWithTag("Player").transform;
+    }
+
     void Update()
     {
-        moveTo = theCamera.ScreenToWorldPoint(Input.mousePosition);
+        moveTo = target.position;
         difference = moveTo - transform.position;
 
         difference.Normalize();

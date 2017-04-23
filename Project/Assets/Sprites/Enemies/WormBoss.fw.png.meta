@@ -1,9 +1,14 @@
 fileFormatVersion: 2
 guid: aea9bf10786bdfa42b6fa52e2414b4be
-timeCreated: 1492887606
+timeCreated: 1492950181
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: WormBoss.fw_0
+    21300002: WormBoss.fw_1
+    21300004: WormBoss.fw_2
+    21300006: WormBoss.fw_3
+    21300008: WormBoss.fw_4
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -34,7 +39,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -92,7 +97,72 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: WormBoss.fw_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.9906071, y: 0.49999997}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WormBoss.fw_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 22
+        height: 32
+      alignment: 9
+      pivot: {x: 0.00088518317, y: 0.49432814}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WormBoss.fw_2
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 0
+        width: 22
+        height: 32
+      alignment: 9
+      pivot: {x: 0.52887446, y: 0.4829847}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WormBoss.fw_3
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 0
+        width: 21
+        height: 32
+      alignment: 9
+      pivot: {x: 0.56049854, y: 0.48014882}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WormBoss.fw_4
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 0
+        width: 26
+        height: 32
+      alignment: 9
+      pivot: {x: 0.007865906, y: 0.49999997}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

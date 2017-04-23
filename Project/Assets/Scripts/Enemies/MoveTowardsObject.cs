@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveTowardsObject : MonoBehaviour {
-
+    [SerializeField]
     private Transform target;
     public float speed = 5.0f;
     private Animator enemyAnimator;
@@ -15,6 +15,7 @@ public class MoveTowardsObject : MonoBehaviour {
     private bool slowed = false;
 
     private new Rigidbody2D rigidbody;
+    [SerializeField]
 
     void Start()
     {
@@ -22,7 +23,7 @@ public class MoveTowardsObject : MonoBehaviour {
         enemyAnimator = GetComponent<Animator>();
         if (GameObject.FindWithTag("Player"))
         {
-            target = GameObject.FindWithTag("Player").transform;
+            //target = GameObject.FindWithTag("Player").transform;
         }
     }
 

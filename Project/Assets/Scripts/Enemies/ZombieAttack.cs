@@ -28,6 +28,7 @@ public class ZombieAttack : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
+        
         if (other.CompareTag("Player") && 
             enemyHealth.GetHealth() > 0 &&
             canAttack)
@@ -38,6 +39,7 @@ public class ZombieAttack : MonoBehaviour
 
     void Attack()
     {
+        print(playerHealth);
         canAttack = false;
 
         playerHealth.TakeDamage(attackDamage);
