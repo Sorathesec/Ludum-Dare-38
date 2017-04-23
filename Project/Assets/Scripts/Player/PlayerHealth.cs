@@ -8,6 +8,10 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField]
     private int maxHealth;
     private int currentHealth;
+    [SerializeField]
+    private AudioClip playerAudio;
+    [SerializeField]
+    private AudioClip playerDeath;
 
     void Awake()
     {
@@ -21,11 +25,16 @@ public class PlayerHealth : MonoBehaviour
     {
         if (currentHealth > 0)
         {
+            
             currentHealth -= value;
             if (currentHealth <= 0)
             {
+                AudioManager.PlayAudioClip(playerDeath);
                 EventManager.TriggerEvent("PlayerDead");
-                gameObject.SetActive(false);
+                gameObject.GetComponent<PlayerMovement>().enabled = false;
+            }
+            else {
+                AudioManager.PlayAudioClip(playerAudio);
             }
             HUDHandler.UpdateUI();
         }
