@@ -19,9 +19,23 @@ public class WormEnemyPiece : ZombieHealth
     public static int bodyDamage;
     public bool dead = false;
     protected bool canDie = true;
+    
+    private WormLook look;
+    private HingeJoint2D joint;
+    private MoveFoward move;
+    private new Rigidbody2D rigidbody;
 
     void Start()
     {
+        renderer = GetComponent<SpriteRenderer>();
+        collider = GetComponent<CircleCollider2D>();
+        attack = GetComponent<ZombieAttack>();
+        look = GetComponent<WormLook>();
+        joint = GetComponent<HingeJoint2D>();
+        move = GetComponent<MoveFoward>();
+        rigidbody = GetComponent<Rigidbody2D>();
+
+
         ResetComponents();
     }
 
@@ -59,44 +73,44 @@ public class WormEnemyPiece : ZombieHealth
 
     public void MakeHead()
     {
-        GetComponent<SpriteRenderer>().sprite = headSprite;
-        GetComponent<CircleCollider2D>().enabled = true;
-        GetComponent<CircleCollider2D>().offset = new Vector2(-0.01f, 0);
-        GetComponent<CircleCollider2D>().radius = 0.18f;
-        GetComponent<ZombieAttack>().attackDamage = headDamage;
-        GetComponent<WormLook>().enabled = true;
-        GetComponent<HingeJoint2D>().enabled = true;
-        GetComponent<HingeJoint2D>().useLimits = false;
-        GetComponent<MoveFoward>().speed = 5;
-        GetComponent<Rigidbody2D>().mass = 1;
-        GetComponent<Rigidbody2D>().freezeRotation = true;
+        renderer.sprite = headSprite;
+        collider.enabled = true;
+        collider.offset = new Vector2(-0.01f, 0);
+        collider.radius = 0.18f;
+        attack.attackDamage = headDamage;
+        look.enabled = true;
+        joint.enabled = true;
+        joint.useLimits = false;
+        move.speed = 5;
+        rigidbody.mass = 1;
+        rigidbody.freezeRotation = true;
         canDie = true;
     }
 
     public void MakeBody()
     {
-        GetComponent<SpriteRenderer>().sprite = bodySprite;
-        GetComponent<ZombieAttack>().attackDamage = bodyDamage;
-        GetComponent<WormLook>().enabled = false;
-        GetComponent<HingeJoint2D>().enabled = true;
-        GetComponent<HingeJoint2D>().useLimits = false;
-        GetComponent<MoveFoward>().speed = 2;
-        GetComponent<Rigidbody2D>().mass = 3;
-        GetComponent<Rigidbody2D>().freezeRotation = false;
+        renderer.sprite = bodySprite;
+        attack.attackDamage = bodyDamage;
+        look.enabled = false;
+        joint.enabled = true;
+        joint.useLimits = false;
+        move.speed = 2;
+        rigidbody.mass = 3;
+        rigidbody.freezeRotation = false;
         canDie = false;
     }
 
     public void MakeTail()
     {
-        GetComponent<SpriteRenderer>().sprite = tailSprite;
-        GetComponent<CircleCollider2D>().offset = new Vector2(0.11f, 0);
-        GetComponent<CircleCollider2D>().radius = 0.14f;
-        GetComponent<ZombieAttack>().attackDamage = bodyDamage;
-        GetComponent<MoveFoward>().speed = 2;
+        renderer.sprite = tailSprite;
+        collider.offset = new Vector2(0.11f, 0);
+        collider.radius = 0.14f;
+        attack.attackDamage = bodyDamage;
+        move.speed = 2;
         if (piece != WormPieceID.Tail)
         {
-            GetComponent<WormLook>().enabled = false;
-            GetComponent<HingeJoint2D>().enabled = false;
+            look.enabled = false;
+            joint.enabled = false;
         }
         canDie = true;
     }

@@ -32,6 +32,8 @@ public class PlayerHealth : MonoBehaviour
                 AudioManager.PlayAudioClip(playerDeath);
                 EventManager.TriggerEvent("PlayerDead");
                 gameObject.GetComponent<PlayerMovement>().enabled = false;
+                GetComponent<Rigidbody2D>().isKinematic = true;
+                GetComponent<ChangeWeapon>().DisableWeapons();
             }
             else {
                 AudioManager.PlayAudioClip(playerAudio);

@@ -96,6 +96,8 @@ public class ZombieSpawner : MonoBehaviour
     private Transform[] spawnPoints;
     [SerializeField]
     private GameObject wormBoss;
+    [SerializeField]
+    private float wormSpawnRate;
 
     private ZombiePool[] pools;
 
@@ -127,17 +129,19 @@ public class ZombieSpawner : MonoBehaviour
         {
             ChooseZombie();
         }
+        print("Wave done");
         Invoke("SpawnMultipleZombies", spawnRate);
     }
 
     private void ChooseZombie()
     {
         float rnd = Random.Range(0.0f, 1.0f);
+        print(rnd);
 
         float totalSpawnRate = 0.0f;
         if(!wormAlive)
         {
-            totalSpawnRate += 0.2f;
+            totalSpawnRate += wormSpawnRate;
         }
         if(rnd < totalSpawnRate)
         {
@@ -149,6 +153,8 @@ public class ZombieSpawner : MonoBehaviour
             if (rnd < totalSpawnRate)
             {
                 TrySpawnZombie(pools[i].GetName());
+                print("Spawned " + pools[i].GetName());
+                break;
             }
         }
     }

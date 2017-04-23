@@ -39,7 +39,6 @@ public class ZombieAttack : MonoBehaviour
 
     void Attack()
     {
-        print(playerHealth);
         canAttack = false;
 
         playerHealth.TakeDamage(attackDamage);

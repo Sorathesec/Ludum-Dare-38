@@ -34,4 +34,12 @@ public class ChangeWeapon : MonoBehaviour
             }
         }
     }
+
+    public void DisableWeapons()
+    {
+        foreach(GameObject obj in weapons)
+        {
+            obj.SetActive(false);
+        }
+    }
 }
