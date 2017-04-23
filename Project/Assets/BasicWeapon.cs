@@ -64,7 +64,7 @@ public class BasicWeapon : BasicPoolManager
         
         float randomSpread = Random.Range(-spreadAmout, spreadAmout);
         
-        realSpawn.localRotation = Quaternion.Euler(0.0f, 0.0f, randomSpread);
+        realSpawn.localRotation = Quaternion.Euler(0.0f, 0.0f, randomSpread - 90);
 
         if (bullet != null)
         {
