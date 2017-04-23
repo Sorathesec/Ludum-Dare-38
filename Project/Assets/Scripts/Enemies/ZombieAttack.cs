@@ -8,13 +8,13 @@ public class ZombieAttack : MonoBehaviour
     public int attackDamage = 10;               // The amount of health taken away per attack.
 
     PlayerHealth playerHealth;                  // Reference to the player's health.
-    IsShootable enemyHealth;                    // Reference to this enemy's health.
+    ZombieHealth enemyHealth;                    // Reference to this enemy's health.
 
     bool canAttack = true;
 
     void Start()
     {
-        enemyHealth = GetComponent<IsShootable>();
+        enemyHealth = GetComponent<ZombieHealth>();
 
         GameObject player = GameObject.FindWithTag("Player");
 
@@ -29,7 +29,7 @@ public class ZombieAttack : MonoBehaviour
     void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Player") && 
-            enemyHealth.health > 0 &&
+            enemyHealth.GetHealth() > 0 &&
             canAttack)
         {
             Attack();
