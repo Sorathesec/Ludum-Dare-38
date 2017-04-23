@@ -18,7 +18,7 @@ public class ZombieSpawner : BasicPoolManager
         {
             spawnPoints[i] = temp[i].transform;
         }
-        InvokeRepeating("TrySpawnZombie", 5.0f, spawnRate);
+        InvokeRepeating("TrySpawnZombie", 3.0f, spawnRate);
     }
 
     // Update is called once per frame
@@ -29,8 +29,8 @@ public class ZombieSpawner : BasicPoolManager
 
     private void TrySpawnZombie()
     {
-        bool validSpawn = false;
-        while (!validSpawn)
+        int count = 0;
+        while (count < 100)
         {
             int rnd = Random.Range(0, spawnPoints.Length);
             Vector2 prnt = spawnPoints[rnd].parent.GetComponent<WorldChunk>().GetChunkIndex();
@@ -41,9 +41,10 @@ public class ZombieSpawner : BasicPoolManager
                 (prnt.y < player.y - 1 || (prnt.y > player.y && prnt.y < player.y + 4));
             if (validX || validY)
             {
-                validSpawn = true;
                 SpawnZombie(spawnPoints[rnd].position);
+                break;
             }
+            count++;
         }
     }
     private void SpawnZombie(Vector3 spawnPoint)

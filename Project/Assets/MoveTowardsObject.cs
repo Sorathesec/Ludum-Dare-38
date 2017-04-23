@@ -14,7 +14,6 @@ public class MoveTowardsObject : MonoBehaviour {
         enemyAnimator = GetComponent<Animator>();
     }
 
-
     void FixedUpdate()
     {
         if (GameObject.FindWithTag("Player"))
@@ -37,4 +36,3 @@ public class MoveTowardsObject : MonoBehaviour {
         }
     }
 }
-
