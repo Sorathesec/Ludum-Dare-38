@@ -42,6 +42,7 @@ public class WormEnemy : MonoBehaviour
         if(head == tail - 1)
         {
             Destroy(gameObject);
+            ZombieSpawner.wormAlive = false;
         }
         if(pieces[head] == piece)
         {

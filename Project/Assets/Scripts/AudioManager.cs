@@ -52,7 +52,6 @@ public class AudioManager : MonoBehaviour
                 return objectPool[i];
             }
         }
-        print("Fail");
         return null;
     }
 

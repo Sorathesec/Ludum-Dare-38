@@ -23,7 +23,7 @@ public class MoveTowardsObject : MonoBehaviour {
         enemyAnimator = GetComponent<Animator>();
         if (GameObject.FindWithTag("Player"))
         {
-            //target = GameObject.FindWithTag("Player").transform;
+            target = GameObject.FindWithTag("Player").transform;
         }
     }
 

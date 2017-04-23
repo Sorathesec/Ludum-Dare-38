@@ -8,7 +8,7 @@ public abstract class ZombieHealth : MonoBehaviour
     private int maxHealth = 10;
 
     protected AudioClip deathClip;
-    private AudioClip damageClip;
+    protected AudioClip damageClip;
     protected AudioSource enemyAudio;
     protected SpriteRenderer renderer;
     protected ZombieAttack attack;
