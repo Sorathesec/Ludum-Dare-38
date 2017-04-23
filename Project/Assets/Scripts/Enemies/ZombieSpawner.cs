@@ -137,7 +137,7 @@ public class ZombieSpawner : MonoBehaviour
         float totalSpawnRate = 0.0f;
         if(!wormAlive)
         {
-            totalSpawnRate += 0.5f;
+            totalSpawnRate += 0.2f;
         }
         if(rnd < totalSpawnRate)
         {
@@ -170,7 +170,6 @@ public class ZombieSpawner : MonoBehaviour
             {
                 temp.transform.position = spawnPoints[rnd].position;
                 wormAlive = true;
-                print("worm");
                 break;
             }
             count++;
