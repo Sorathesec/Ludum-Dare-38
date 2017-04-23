@@ -17,6 +17,8 @@ public abstract class BasicWeapon : BasicPoolManager
     private float reloadTime = 1.0f;
     [SerializeField]
     protected float spreadAmount = 5.0f;
+    [SerializeField]
+    private AudioClip firingSound;
 
     protected int bulletsInClip = 0;
 
@@ -79,6 +81,7 @@ public abstract class BasicWeapon : BasicPoolManager
     {
         if (Input.GetMouseButtonDown(0))
         {
+            AudioManager.PlayAudioClip(firingSound);
             Fire();
         }
     }
@@ -87,6 +90,7 @@ public abstract class BasicWeapon : BasicPoolManager
     {
         if (Input.GetMouseButton(0))
         {
+            AudioManager.PlayAudioClip(firingSound);
             Fire();
         }
     }

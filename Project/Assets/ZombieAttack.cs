@@ -22,6 +22,11 @@ public class ZombieAttack : MonoBehaviour
         playerHealth = player.GetComponent<PlayerHealth>();
     }
 
+    void OnEnable()
+    {
+        canAttack = true;
+    }
+
     void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Player") && 

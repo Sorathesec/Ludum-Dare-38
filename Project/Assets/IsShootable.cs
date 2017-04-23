@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IsShootable : MonoBehaviour
 {
-    public int health = 10;
+    public int maxHealth = 10;
     public AudioClip deathClip;
     public AudioClip damageClip;
     //public GameObject explosionPrefab;
@@ -14,6 +14,8 @@ public class IsShootable : MonoBehaviour
     SpriteRenderer renderer;
     ZombieAttack attack;
     CircleCollider2D collider;
+    BoxCollider2D trigger;
+    public int health;
 
     public void Awake()
     {
@@ -21,6 +23,7 @@ public class IsShootable : MonoBehaviour
         renderer = GetComponent<SpriteRenderer>();
         attack = GetComponent<ZombieAttack>();
         collider = GetComponent<CircleCollider2D>();
+        trigger = GetComponent<BoxCollider2D>();
     }
 
     void OnEnable()
@@ -28,6 +31,9 @@ public class IsShootable : MonoBehaviour
         renderer.enabled = true;
         attack.enabled = true;
         collider.enabled = true;
+        trigger.enabled = true;
+
+        health = maxHealth;
     }
 
     public void TakeDamage(int damage)
@@ -45,6 +51,7 @@ public class IsShootable : MonoBehaviour
             renderer.enabled = false;
             attack.enabled = false;
             collider.enabled = false;
+            trigger.enabled = false;
 
             Invoke("Disable", 0.5f);
         }
