@@ -9,6 +9,12 @@ public class ZombieSpawner : BasicPoolManager
     private float spawnRate = 2.0f;
     [SerializeField]
     private int waveSize = 3;
+    [SerializeField]
+    private float spawnRateIncrease = 0.2f;
+    [SerializeField]
+    private float spawnRateIncreaseTimer = 20.0f;
+    [SerializeField]
+    private float minimumSpawnRate = 0.5f;
     private Transform[] spawnPoints;
 
 
@@ -22,7 +28,8 @@ public class ZombieSpawner : BasicPoolManager
         {
             spawnPoints[i] = temp[i].transform;
         }
-        InvokeRepeating("SpawnMultipleZombies", 3.0f, spawnRate);
+        Invoke("SpawnMultipleZombies", 3.0f);
+        InvokeRepeating("IncreaseSpawnRate", spawnRateIncreaseTimer, spawnRateIncreaseTimer);
     }
 
     private void SpawnMultipleZombies()
@@ -31,6 +38,7 @@ public class ZombieSpawner : BasicPoolManager
         {
             TrySpawnZombie();
         }
+        Invoke("SpawnMultipleZombies", spawnRate);
     }
 
     private void TrySpawnZombie()
@@ -61,6 +69,18 @@ public class ZombieSpawner : BasicPoolManager
         {
             zombie.transform.position = spawnPoint;
             zombie.SetActive(true);
+        }
+    }
+
+    private void IncreaseSpawnRate()
+    {
+        if (spawnRate <= minimumSpawnRate)
+        {
+            spawnRate = minimumSpawnRate;
+        }
+        else
+        {
+            spawnRate -= spawnRateIncrease;
         }
     }
 }

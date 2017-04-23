@@ -10,14 +10,10 @@ public class IsShootable : MonoBehaviour
     //public float adjustExplosionAngle = 0.0f;
 
     AudioSource enemyAudio;
-    CircleCollider2D circleCollider;
-    BoxCollider2D boxCollider;
 
     public void Awake()
     {
         enemyAudio = GetComponent<AudioSource>();
-        circleCollider = GetComponent<CircleCollider2D>();
-        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     public void TakeDamage(int damage)

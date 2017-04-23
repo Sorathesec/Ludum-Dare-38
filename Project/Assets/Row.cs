@@ -8,8 +8,6 @@ public class Row : MonoBehaviour
     private WorldChunk[] chunks;
     [SerializeField]
     private int centerObject = 2;
-    [SerializeField]
-    private int index = 0;
     public static float chunkSize;
     
     public void TryShift(int newIndex)
