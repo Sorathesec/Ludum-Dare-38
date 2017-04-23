@@ -15,10 +15,8 @@ public class BulletHit2D : MonoBehaviour
         if (other.CompareTag (damageTag)) 
 		{
 			other.SendMessage ("TakeDamage", damage);
-
-			print (health);
+            
 			health--;
-			print (health);
 			if (health > 0) 
 			{
 				return;

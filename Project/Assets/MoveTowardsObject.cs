@@ -6,14 +6,12 @@ public class MoveTowardsObject : MonoBehaviour {
 
     private Transform target;
     public float speed = 5.0f;
-    private bool isMoving = false;
     private Animator enemyAnimator;
 
     void Start()
     {
         enemyAnimator = GetComponent<Animator>();
     }
-
 
     void FixedUpdate()
     {
@@ -37,4 +35,3 @@ public class MoveTowardsObject : MonoBehaviour {
         }
     }
 }
-

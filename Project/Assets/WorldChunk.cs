@@ -12,13 +12,6 @@ public class WorldChunk : MonoBehaviour
     private Vector2 chunkIndex;
     [SerializeField]
     private BiomeType biome;
-    [SerializeField]
-    private Row row;
-
-    void Start()
-    {
-        row = transform.parent.GetComponent<Row>();
-    }
 
     public BiomeType GetBiomeType()
     {

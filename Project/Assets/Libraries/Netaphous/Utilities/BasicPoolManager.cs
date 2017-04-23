@@ -4,30 +4,43 @@ namespace Netaphous.Utilities
 {
     public abstract class BasicPoolManager : MonoBehaviour
     {
-        // Public variables
-        // To be set in the editor
-
         // Private variables
         // Can be accessed in the editor
         [SerializeField]
-        protected int pooledAmount = 50;
+        protected int[] pooledAmounts;
         [SerializeField]
-        protected GameObject objectPrefab;
+        protected GameObject[] objectPrefab;
+        [SerializeField]
+        private bool poolAsChildren = false;
 
         // Script logic
         private GameObject[] objectPool;
+        private int poolTotal = 0;
 
         /// <summary>
         /// Initialises the object pool and fills it with game objects made from the prefab given
         /// </summary>
         protected void CreatePool()
         {
-            objectPool = new GameObject[pooledAmount];
-
-            for (int i = 0; i < pooledAmount; i++)
+            for(int i = 0; i < pooledAmounts.Length; i++)
             {
-                objectPool[i] = Instantiate(objectPrefab) as GameObject;
-                objectPool[i].SetActive(false);
+                poolTotal += pooledAmounts[i];
+            }
+            objectPool = new GameObject[poolTotal];
+
+            int count = 0;
+            for (int i = 0; i < pooledAmounts.Length; i++)
+            {
+                for (int j = 0; j < pooledAmounts[i]; j++)
+                {
+                    objectPool[count] = Instantiate(objectPrefab[i]) as GameObject;
+                    if (poolAsChildren)
+                    {
+                        objectPool[count].transform.parent = transform;
+                    }
+                    objectPool[count].SetActive(false);
+                    count++;
+                }
             }
         }
 
@@ -37,7 +50,7 @@ namespace Netaphous.Utilities
         /// <returns> The gameobject from the pool </returns>
         protected GameObject GetPooledItem()
         {
-            for (int i = 0; i < pooledAmount; i++)
+            for (int i = 0; i < poolTotal; i++)
             {
                 if (objectPool[i] != null &&
                     !objectPool[i].activeInHierarchy)
