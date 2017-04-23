@@ -54,6 +54,10 @@ public abstract class Bullet2D : MonoBehaviour
         {
             CollisionAction(other);
         }
+        else if(other.tag == "Scenery")
+        {
+            Die();
+        }
     }
 
     protected abstract void CollisionAction(Collider2D other);

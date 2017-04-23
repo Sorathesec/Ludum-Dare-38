@@ -8,10 +8,10 @@ public class RegularBullet : Bullet2D
     {
         other.SendMessage("TakeDamage", damage);
         health--;
-                if (health > 0)
-                {
-                    return;
-                }
-                gameObject.SetActive(false);
+        if (health > 0)
+        {
+            return;
+        }
+        gameObject.SetActive(false);
     }
 }
