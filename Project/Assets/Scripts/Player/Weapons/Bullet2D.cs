@@ -1,18 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bullet2D : MonoBehaviour
+public abstract class Bullet2D : MonoBehaviour
 {
     // Public variables
     // To be set in the editor
-    public float speed = 5.0f;
-    public float destroyTime = 0.7f;
+    [SerializeField]
+    private float speed = 5.0f;
+    [SerializeField]
+    private float destroyTime = 0.7f;
+    [SerializeField]
+    protected int damage = 1;
+    [SerializeField]
+    private string damageTag = "";
+    [SerializeField]
+    protected int health = 1;
 
     // Private variables
     // Code optimisation
     private Rigidbody2D theRigidbody2D;
 
-    void Start()
+    protected void Awake()
     {
         theRigidbody2D = GetComponent<Rigidbody2D>();
     }
@@ -35,4 +43,14 @@ public class Bullet2D : MonoBehaviour
     {
         theRigidbody2D.velocity = transform.up * speed;
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag(damageTag))
+        {
+            CollisionAction(other);
+        }
+    }
+
+    protected abstract void CollisionAction(Collider2D other);
 }
