@@ -14,6 +14,8 @@ public abstract class Bullet2D : MonoBehaviour
     [SerializeField]
     private string damageTag = "";
     [SerializeField]
+    private int maxHealth = 1;
+
     protected int health = 1;
 
     // Private variables
@@ -22,12 +24,14 @@ public abstract class Bullet2D : MonoBehaviour
 
     protected void Awake()
     {
+        health = maxHealth;
         theRigidbody2D = GetComponent<Rigidbody2D>();
     }
 
 	void OnEnable () {
         Invoke("Die", destroyTime);
-	}
+        health = maxHealth;
+    }
 
     void Die()
     {
