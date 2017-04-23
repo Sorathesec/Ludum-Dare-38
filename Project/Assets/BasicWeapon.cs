@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Netaphous.Utilities;
 
-public class BasicWeapon : BasicPoolManager
+public abstract class BasicWeapon : BasicPoolManager
 {
     [SerializeField]
-    private Transform bulletSpawn;
+    protected bool singleShot = true;
     [SerializeField]
-    private bool singleShot = true;
-    [SerializeField]
-    private float fireRate = 0.5f;
+    protected float fireRate = 0.5f;
     [SerializeField]
     private int clipSize = 10;
     [SerializeField]
@@ -18,15 +16,15 @@ public class BasicWeapon : BasicPoolManager
     [SerializeField]
     private float reloadTime = 1.0f;
     [SerializeField]
-    private float spreadAmout = 5.0f;
+    protected float spreadAmount = 5.0f;
 
-    private int bulletsInClip = 0;
+    protected int bulletsInClip = 0;
 
-    private bool canFire = true;
+    protected bool canFire = true;
     private bool reloading = false;
 
     // Use this for initialization
-    void Start ()
+    protected void Start ()
     {
         CreatePool();
 
@@ -56,20 +54,21 @@ public class BasicWeapon : BasicPoolManager
         }
     }
 
-    private void Fire()
+    protected abstract void Fire();
+
+    protected void FireSingleBullet(Transform bulletSpawn)
     {
         canFire = false;
         GameObject bullet = GetPooledItem();
-        Transform realSpawn = bulletSpawn;
-        
-        float randomSpread = Random.Range(-spreadAmout, spreadAmout);
-        
-        realSpawn.localRotation = Quaternion.Euler(0.0f, 0.0f, randomSpread);
+
+        float randomSpread = Random.Range(-spreadAmount, spreadAmount);
+
+        Quaternion newRot = Quaternion.Euler(0.0f, 0.0f, bulletSpawn.eulerAngles.z + randomSpread);
 
         if (bullet != null)
         {
-            bullet.transform.position = realSpawn.position;
-            bullet.transform.rotation = realSpawn.rotation;
+            bullet.transform.position = bulletSpawn.position;
+            bullet.transform.rotation = newRot;
             bullet.SetActive(true);
         }
         bulletsInClip--;
