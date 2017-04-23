@@ -14,7 +14,6 @@ public class AudioManager : MonoBehaviour
 
     // Script logic
     private AudioSource[] objectPool;
-    private bool[] activeObjects;
 
     // Use this for initialization
     void Start()
@@ -30,7 +29,6 @@ public class AudioManager : MonoBehaviour
     protected void CreatePool()
     {
         objectPool = new AudioSource[pooledAmount];
-        activeObjects = new bool[pooledAmount];
 
         GameObject temp;
         for (int i = 0; i < pooledAmount; i++)
@@ -44,7 +42,7 @@ public class AudioManager : MonoBehaviour
     /// Returns a gameobject from the local pool if there is one available
     /// </summary>
     /// <returns> The gameobject from the pool </returns>
-    protected new AudioSource GetPooledItem()
+    protected AudioSource GetPooledItem()
     {
         for (int i = 0; i < pooledAmount; i++)
         {

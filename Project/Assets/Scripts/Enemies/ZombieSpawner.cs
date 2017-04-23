@@ -3,8 +3,84 @@ using System.Collections.Generic;
 using UnityEngine;
 using Netaphous.Utilities;
 
-public class ZombieSpawner : BasicPoolManager
+public class ZombiePool : MonoBehaviour
 {
+    public string poolName;
+    private float spawnRate = 0.0f;
+    private GameObject prefab;
+    private int pooledAmount;
+
+    private GameObject[] objectPool;
+
+    public ZombiePool(string name, GameObject prefab, int amount, float spawnRate)
+    {
+        poolName = name;
+        this.prefab = prefab;
+        pooledAmount = amount;
+        this.spawnRate = spawnRate;
+
+        CreatePool();
+    }
+
+    private void CreatePool()
+    {
+        objectPool = new GameObject[pooledAmount];
+
+        int count = 0;
+        for (int j = 0; j < pooledAmount; j++)
+        {
+            objectPool[count] = Instantiate(prefab) as GameObject;
+            objectPool[count].SetActive(false);
+            count++;
+        }
+    }
+
+    public string GetName()
+    {
+        return poolName;
+    }
+
+    public float getSpawnRate()
+    {
+        return spawnRate;
+    }
+
+    public GameObject GetPooledObject()
+    {
+        for (int i = 0; i < pooledAmount; i++)
+        {
+            if (objectPool[i] != null &&
+                !objectPool[i].activeInHierarchy)
+            {
+                return objectPool[i];
+            }
+        }
+        return null;
+    }
+
+    private void ResetPool()
+    {
+        for (int i = 0; i < objectPool.Length; i++)
+        {
+            if (objectPool[i] != null &&
+                objectPool[i].activeInHierarchy)
+            {
+                objectPool[i].SetActive(false);
+            }
+        }
+    }
+}
+
+public class ZombieSpawner : MonoBehaviour
+{
+    [SerializeField]
+    private string[] poolNames;
+    [SerializeField]
+    protected int[] pooledAmounts;
+    [SerializeField]
+    protected GameObject[] objectPrefabs;
+    [SerializeField]
+    private float[] zombieSpawnRates;
     [SerializeField]
     private float spawnRate = 2.0f;
     [SerializeField]
@@ -17,11 +93,18 @@ public class ZombieSpawner : BasicPoolManager
     private float minimumSpawnRate = 0.5f;
     private Transform[] spawnPoints;
 
+    private ZombiePool[] pools;
+
 
     // Use this for initialization
     void Start()
     {
-        CreatePool();
+        pools = new ZombiePool[objectPrefabs.Length];
+        for(int i = 0; i < pools.Length; i++)
+        {
+            pools[i] = new ZombiePool(poolNames[i], objectPrefabs[i], pooledAmounts[i], zombieSpawnRates[i]);
+        }
+
         GameObject[] temp = GameObject.FindGameObjectsWithTag("ZombieSpawn");
         spawnPoints = new Transform[temp.Length];
         for (int i = 0; i < temp.Length; i++)
@@ -34,14 +117,29 @@ public class ZombieSpawner : BasicPoolManager
 
     private void SpawnMultipleZombies()
     {
-        for(int i = 0; i < waveSize; i++)
+        for (int i = 0; i < waveSize; i++)
         {
-            TrySpawnZombie();
+            ChooseZombie();
         }
         Invoke("SpawnMultipleZombies", spawnRate);
     }
 
-    private void TrySpawnZombie()
+    private void ChooseZombie()
+    {
+        float rnd = Random.Range(0.0f, 1.0f);
+
+        float totalSpawnRate = 0.0f;
+        for (int i = 0; i < pools.Length; i++)
+        {
+            totalSpawnRate += pools[i].getSpawnRate();
+            if (rnd < totalSpawnRate)
+            {
+                TrySpawnZombie(pools[i].GetName());
+            }
+        }
+    }
+
+    private void TrySpawnZombie(string zombieName)
     {
         int count = 0;
         while (count < 100)
@@ -50,26 +148,39 @@ public class ZombieSpawner : BasicPoolManager
             Vector2 prnt = spawnPoints[rnd].parent.GetComponent<WorldChunk>().GetChunkIndex();
             Vector2 player = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>().currentChunk;
             bool validX = (prnt.x > player.x + 1 || prnt.x < (player.x + 1) % 5) &&
-                (prnt.x < player.x - 1 || (prnt.x > player.x && prnt.x < player.x + 4)); 
+                (prnt.x < player.x - 1 || (prnt.x > player.x && prnt.x < player.x + 4));
             bool validY = (prnt.y > player.y + 1 || prnt.y < (player.y + 1) % 5) &&
                 (prnt.y < player.y - 1 || (prnt.y > player.y && prnt.y < player.y + 4));
             if (validX || validY)
             {
-                SpawnZombie(spawnPoints[rnd].position);
+                SpawnZombie(spawnPoints[rnd].position, zombieName);
                 break;
             }
             count++;
         }
     }
-    private void SpawnZombie(Vector3 spawnPoint)
+    private void SpawnZombie(Vector3 spawnPoint, string name)
     {
-        GameObject zombie = GetPooledItem();
+        GameObject zombie = null;
+        for (int i = 0; i < pools.Length; i++)
+        {
+            if(pools[i].GetName() == name)
+            {
+                zombie = pools[i].GetPooledObject();
+            }
+        }
+
+        if(zombie == null)
+        {
+            pools[pools.Length - 1].GetPooledObject();
+        }
 
         if (zombie != null)
         {
             zombie.transform.position = spawnPoint;
             zombie.SetActive(true);
         }
+        print(name);
     }
 
     private void IncreaseSpawnRate()
