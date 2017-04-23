@@ -20,7 +20,7 @@ public abstract class Bullet2D : MonoBehaviour
     // Code optimisation
     private Rigidbody2D theRigidbody2D;
 
-    void Start()
+    protected void Awake()
     {
         theRigidbody2D = GetComponent<Rigidbody2D>();
     }

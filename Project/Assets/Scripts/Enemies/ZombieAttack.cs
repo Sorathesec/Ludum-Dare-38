@@ -16,7 +16,6 @@ public class ZombieAttack : MonoBehaviour
     {
         enemyHealth = GetComponent<IsShootable>();
 
-
         GameObject player = GameObject.FindWithTag("Player");
 
         playerHealth = player.GetComponent<PlayerHealth>();
