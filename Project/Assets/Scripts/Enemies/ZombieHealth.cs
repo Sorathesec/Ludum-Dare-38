@@ -14,7 +14,7 @@ public abstract class ZombieHealth : MonoBehaviour
     protected ZombieAttack attack;
     protected CircleCollider2D collider;
     protected BoxCollider2D trigger;
-    private int health;
+    protected int health;
 
     public void Awake()
     {

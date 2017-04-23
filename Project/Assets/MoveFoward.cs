@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveFoward : MonoBehaviour
 {
     [SerializeField]
-    float speed = 2.0f;
+    public float speed = 2.0f;
 
     void FixedUpdate()
     {
