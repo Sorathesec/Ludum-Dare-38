@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Netaphous.Utilities;
 
-public class ZombiePool : MonoBehaviour
+public class ZombiePool
 {
     public string poolName;
     private float spawnRate = 0.0f;
@@ -12,12 +12,15 @@ public class ZombiePool : MonoBehaviour
 
     private GameObject[] objectPool;
 
-    public ZombiePool(string name, GameObject prefab, int amount, float spawnRate)
+    private Transform spawner;
+
+    public ZombiePool(string name, GameObject prefab, int amount, float spawnRate, Transform spawner)
     {
         poolName = name;
         this.prefab = prefab;
         pooledAmount = amount;
         this.spawnRate = spawnRate;
+        this.spawner = spawner;
 
         CreatePool();
     }
@@ -25,13 +28,12 @@ public class ZombiePool : MonoBehaviour
     private void CreatePool()
     {
         objectPool = new GameObject[pooledAmount];
-
-        int count = 0;
-        for (int j = 0; j < pooledAmount; j++)
+        
+        for (int i = 0; i < pooledAmount; i++)
         {
-            objectPool[count] = Instantiate(prefab) as GameObject;
-            objectPool[count].SetActive(false);
-            count++;
+            objectPool[i] = GameObject.Instantiate(prefab) as GameObject;
+            objectPool[i].transform.parent = spawner;
+            objectPool[i].SetActive(false);
         }
     }
 
@@ -102,7 +104,7 @@ public class ZombieSpawner : MonoBehaviour
         pools = new ZombiePool[objectPrefabs.Length];
         for(int i = 0; i < pools.Length; i++)
         {
-            pools[i] = new ZombiePool(poolNames[i], objectPrefabs[i], pooledAmounts[i], zombieSpawnRates[i]);
+            pools[i] = new ZombiePool(poolNames[i], objectPrefabs[i], pooledAmounts[i], zombieSpawnRates[i], transform);
         }
 
         GameObject[] temp = GameObject.FindGameObjectsWithTag("ZombieSpawn");
@@ -180,7 +182,6 @@ public class ZombieSpawner : MonoBehaviour
             zombie.transform.position = spawnPoint;
             zombie.SetActive(true);
         }
-        print(name);
     }
 
     private void IncreaseSpawnRate()

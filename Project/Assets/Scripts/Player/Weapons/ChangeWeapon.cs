@@ -33,6 +33,5 @@ public class ChangeWeapon : MonoBehaviour
                 weapons[i].SetActive(false);
             }
         }
-        print("New biome: " + currentBiome);
     }
 }

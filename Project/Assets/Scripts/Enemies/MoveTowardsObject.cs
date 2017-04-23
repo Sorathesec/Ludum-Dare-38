@@ -14,24 +14,26 @@ public class MoveTowardsObject : MonoBehaviour {
 
     private bool slowed = false;
 
+    private new Rigidbody2D rigidbody;
+
     void Start()
     {
+        rigidbody = GetComponent<Rigidbody2D>();
         enemyAnimator = GetComponent<Animator>();
-    }
-
-    void FixedUpdate()
-    {
         if (GameObject.FindWithTag("Player"))
         {
             target = GameObject.FindWithTag("Player").transform;
         }
+    }
 
+    void FixedUpdate()
+    {
         if (target != null)
         {
-            if (GetComponent<Rigidbody2D>() != null)
+            if (rigidbody != null)
             {
-                GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
+                rigidbody.velocity = Vector2.zero;
+                rigidbody.angularVelocity = 0.0f;
             }
             float realSpeed = speed * 0.01f;
             if(slowed)
