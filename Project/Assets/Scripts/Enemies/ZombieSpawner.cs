@@ -94,8 +94,12 @@ public class ZombieSpawner : MonoBehaviour
     [SerializeField]
     private float minimumSpawnRate = 0.5f;
     private Transform[] spawnPoints;
+    [SerializeField]
+    private GameObject wormBoss;
 
     private ZombiePool[] pools;
+
+    public static bool wormAlive = false;
 
 
     // Use this for initialization
@@ -131,6 +135,14 @@ public class ZombieSpawner : MonoBehaviour
         float rnd = Random.Range(0.0f, 1.0f);
 
         float totalSpawnRate = 0.0f;
+        if(!wormAlive)
+        {
+            totalSpawnRate += 0.5f;
+        }
+        if(rnd < totalSpawnRate)
+        {
+            SpawnWorm();
+        }
         for (int i = 0; i < pools.Length; i++)
         {
             totalSpawnRate += pools[i].getSpawnRate();
@@ -138,6 +150,30 @@ public class ZombieSpawner : MonoBehaviour
             {
                 TrySpawnZombie(pools[i].GetName());
             }
+        }
+    }
+
+    private void SpawnWorm()
+    {
+        GameObject temp = Instantiate(wormBoss);
+        int count = 0;
+        while (count < 100)
+        {
+            int rnd = Random.Range(0, spawnPoints.Length);
+            Vector2 prnt = spawnPoints[rnd].parent.GetComponent<WorldChunk>().GetChunkIndex();
+            Vector2 player = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>().currentChunk;
+            bool validX = (prnt.x > player.x + 1 || prnt.x < (player.x + 1) % 5) &&
+                (prnt.x < player.x - 1 || (prnt.x > player.x && prnt.x < player.x + 4));
+            bool validY = (prnt.y > player.y + 1 || prnt.y < (player.y + 1) % 5) &&
+                (prnt.y < player.y - 1 || (prnt.y > player.y && prnt.y < player.y + 4));
+            if (validX || validY)
+            {
+                temp.transform.position = spawnPoints[rnd].position;
+                wormAlive = true;
+                print("worm");
+                break;
+            }
+            count++;
         }
     }
 

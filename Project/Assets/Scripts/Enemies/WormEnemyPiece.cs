@@ -70,7 +70,7 @@ public class WormEnemyPiece : ZombieHealth
         GetComponent<MoveFoward>().speed = 5;
         GetComponent<Rigidbody2D>().mass = 1;
         GetComponent<Rigidbody2D>().freezeRotation = true;
-        canBeHurt = true;
+        canDie = true;
     }
 
     public void MakeBody()
@@ -83,7 +83,7 @@ public class WormEnemyPiece : ZombieHealth
         GetComponent<MoveFoward>().speed = 2;
         GetComponent<Rigidbody2D>().mass = 3;
         GetComponent<Rigidbody2D>().freezeRotation = false;
-        canBeHurt = false;
+        canDie = false;
     }
 
     public void MakeTail()
@@ -98,6 +98,6 @@ public class WormEnemyPiece : ZombieHealth
             GetComponent<WormLook>().enabled = false;
             GetComponent<HingeJoint2D>().enabled = false;
         }
-        canBeHurt = true;
+        canDie = true;
     }
 }
