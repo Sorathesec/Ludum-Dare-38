@@ -11,9 +11,9 @@ public class ChooseRandomAudio : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        IsShootable shootable = GetComponent<IsShootable>();
+        ZombieHealth health = GetComponent<ZombieHealth>();
         int rnd = Random.Range(0, damageClips.Length);
-        shootable.damageClip = damageClips[rnd];
-        shootable.deathClip = deathClips[rnd];
+        health.SetDamageClip(damageClips[rnd]);
+        health.SetDeathClip(deathClips[rnd]);
 	}
 }
