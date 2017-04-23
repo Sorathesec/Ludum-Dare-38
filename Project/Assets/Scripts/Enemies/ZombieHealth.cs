@@ -10,9 +10,9 @@ public abstract class ZombieHealth : MonoBehaviour
     protected AudioClip deathClip;
     protected AudioClip damageClip;
     protected AudioSource enemyAudio;
-    protected SpriteRenderer renderer;
+    protected new SpriteRenderer renderer;
     protected ZombieAttack attack;
-    protected CircleCollider2D collider;
+    protected new CircleCollider2D collider;
     protected BoxCollider2D trigger;
     protected int health;
 

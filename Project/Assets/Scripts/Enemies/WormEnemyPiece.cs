@@ -27,9 +27,6 @@ public class WormEnemyPiece : ZombieHealth
 
     void Start()
     {
-        renderer = GetComponent<SpriteRenderer>();
-        collider = GetComponent<CircleCollider2D>();
-        attack = GetComponent<ZombieAttack>();
         look = GetComponent<WormLook>();
         joint = GetComponent<HingeJoint2D>();
         move = GetComponent<MoveFoward>();

@@ -9,7 +9,7 @@ public class ExplosionBullet : Bullet2D
 
     private GameObject explosion;
 	// Use this for initialization
-	void Awake ()
+	new void Awake ()
     {
         base.Awake();
         explosion = Instantiate(prefab, transform.position, transform.rotation);

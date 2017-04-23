@@ -34,12 +34,24 @@ public class PlayerHealth : MonoBehaviour
                 gameObject.GetComponent<PlayerMovement>().enabled = false;
                 GetComponent<Rigidbody2D>().isKinematic = true;
                 GetComponent<ChangeWeapon>().DisableWeapons();
+                Invoke("Dead", 0.5f);
+                Invoke("EndGame", 5.0f);
             }
             else {
                 AudioManager.PlayAudioClip(playerAudio);
             }
             HUDHandler.UpdateUI();
         }
+    }
+
+    private void Dead()
+    {
+        GameObject.Find("GameOver").GetComponent<Animator>().SetBool("GameOver", true);
+    }
+
+    private void EndGame()
+    {
+        LoadScene.instance.LoadLevel("StartScreen");
     }
 
     public void Heal(int value)
