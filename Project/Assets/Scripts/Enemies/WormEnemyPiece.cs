@@ -19,7 +19,7 @@ public class WormEnemyPiece : ZombieHealth
     public static int bodyDamage;
     public bool dead = false;
     protected bool canDie = true;
-    
+
     private WormLook look;
     private HingeJoint2D joint;
     private MoveFoward move;
@@ -31,7 +31,6 @@ public class WormEnemyPiece : ZombieHealth
         joint = GetComponent<HingeJoint2D>();
         move = GetComponent<MoveFoward>();
         rigidbody = GetComponent<Rigidbody2D>();
-
 
         ResetComponents();
     }
@@ -71,9 +70,8 @@ public class WormEnemyPiece : ZombieHealth
     public void MakeHead()
     {
         renderer.sprite = headSprite;
-        collider.enabled = true;
-        collider.offset = new Vector2(-0.01f, 0);
-        collider.radius = 0.18f;
+        trigger.enabled = true;
+        trigger.offset = new Vector2(-0.04f, 0);
         attack.attackDamage = headDamage;
         look.enabled = true;
         joint.enabled = true;
@@ -100,8 +98,7 @@ public class WormEnemyPiece : ZombieHealth
     public void MakeTail()
     {
         renderer.sprite = tailSprite;
-        collider.offset = new Vector2(0.11f, 0);
-        collider.radius = 0.14f;
+        trigger.offset = new Vector2(0.11f, 0);
         attack.attackDamage = bodyDamage;
         move.speed = 2;
         if (piece != WormPieceID.Tail)

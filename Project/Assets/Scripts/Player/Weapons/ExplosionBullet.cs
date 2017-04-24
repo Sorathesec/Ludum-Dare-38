@@ -18,6 +18,7 @@ public class ExplosionBullet : Bullet2D
 
     protected override void CollisionAction(Collider2D other)
     {
+        other.SendMessage("TakeDamage", damage);
         explosion.transform.position = transform.position;
         explosion.transform.rotation = transform.rotation;
         explosion.SetActive(true);
