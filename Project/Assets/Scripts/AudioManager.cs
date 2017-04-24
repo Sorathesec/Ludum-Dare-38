@@ -55,10 +55,12 @@ public class AudioManager : MonoBehaviour
         return null;
     }
 
-    public static void PlayAudioClip(AudioClip audio)
+    public static void PlayAudioClip(AudioClip audio, float volume)
     {
         AudioSource source = instance.GetPooledItem();
-        
+
+        source.volume = volume;
+
         source.PlayOneShot(audio);
     }
 }
