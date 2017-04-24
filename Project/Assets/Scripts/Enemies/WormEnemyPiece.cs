@@ -18,6 +18,7 @@ public class WormEnemyPiece : ZombieHealth
     public static int headDamage;
     public static int bodyDamage;
     public bool dead = false;
+    public WormPieceID currentPiece;
     protected bool canDie = true;
 
     private WormLook look;
@@ -32,26 +33,24 @@ public class WormEnemyPiece : ZombieHealth
         move = GetComponent<MoveFoward>();
         rigidbody = GetComponent<Rigidbody2D>();
 
-        ResetComponents();
+        ResetComponent();
     }
 
     protected override void Die()
     {
-        if (canDie)
-        {
-            ResetComponents();
+            ResetComponent();
             gameObject.SetActive(false);
             dead = true;
             transform.parent.GetComponent<WormEnemy>().PieceDied(this);
             enemyAudio.PlayOneShot(deathClip);
-        }
-        else
-        {
-            health = 1;
-        }
     }
 
-    private void ResetComponents()
+    public void KillMe()
+    {
+        Die();
+    }
+
+    private void ResetComponent()
     {
         switch (piece)
         {
@@ -71,7 +70,7 @@ public class WormEnemyPiece : ZombieHealth
     {
         renderer.sprite = headSprite;
         trigger.enabled = true;
-        trigger.offset = new Vector2(-0.04f, 0);
+        trigger.offset = new Vector2(0.11f, 0);
         attack.attackDamage = headDamage;
         look.enabled = true;
         joint.enabled = true;
@@ -98,7 +97,7 @@ public class WormEnemyPiece : ZombieHealth
     public void MakeTail()
     {
         renderer.sprite = tailSprite;
-        trigger.offset = new Vector2(0.11f, 0);
+        trigger.offset = new Vector2(-0.06f, 0);
         attack.attackDamage = bodyDamage;
         move.speed = 2;
         if (piece != WormPieceID.Tail)
