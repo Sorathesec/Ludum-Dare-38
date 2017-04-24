@@ -30,9 +30,9 @@ public class PlayerHealth : MonoBehaviour
             if (currentHealth <= 0)
             {
                 AudioManager.PlayAudioClip(playerDeath);
-                EventManager.TriggerEvent("PlayerDead");
                 gameObject.GetComponent<PlayerMovement>().enabled = false;
                 GetComponent<Rigidbody2D>().isKinematic = true;
+                GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 GetComponent<ChangeWeapon>().DisableWeapons();
                 Invoke("Dead", 0.5f);
                 Invoke("EndGame", 5.0f);

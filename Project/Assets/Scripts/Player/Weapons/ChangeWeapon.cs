@@ -10,6 +10,7 @@ public class ChangeWeapon : MonoBehaviour
     private GameObject[] weapons;
 
     private BiomeType currentBiome;
+    private bool canSwitch = true;
 
     public void UpdateBiome(BiomeType newBiome)
     {
@@ -22,21 +23,25 @@ public class ChangeWeapon : MonoBehaviour
 
     private void SwitchWeapon()
     {
-        for(int i = 0; i < biomes.Length; i++)
+        if (canSwitch)
         {
-            if(biomes[i] == currentBiome)
+            for (int i = 0; i < biomes.Length; i++)
             {
-                weapons[i].SetActive(true);
-            }
-            else
-            {
-                weapons[i].SetActive(false);
+                if (biomes[i] == currentBiome)
+                {
+                    weapons[i].SetActive(true);
+                }
+                else
+                {
+                    weapons[i].SetActive(false);
+                }
             }
         }
     }
 
     public void DisableWeapons()
     {
+        canSwitch = false;
         foreach(GameObject obj in weapons)
         {
             obj.SetActive(false);

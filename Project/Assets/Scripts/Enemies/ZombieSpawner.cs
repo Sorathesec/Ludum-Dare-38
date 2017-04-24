@@ -129,14 +129,12 @@ public class ZombieSpawner : MonoBehaviour
         {
             ChooseZombie();
         }
-        print("Wave done");
         Invoke("SpawnMultipleZombies", spawnRate);
     }
 
     private void ChooseZombie()
     {
         float rnd = Random.Range(0.0f, 1.0f);
-        print(rnd);
 
         float totalSpawnRate = 0.0f;
         if(!wormAlive)
@@ -153,7 +151,6 @@ public class ZombieSpawner : MonoBehaviour
             if (rnd < totalSpawnRate)
             {
                 TrySpawnZombie(pools[i].GetName());
-                print("Spawned " + pools[i].GetName());
                 break;
             }
         }
