@@ -29,7 +29,7 @@ public class PlayerHealth : MonoBehaviour
             currentHealth -= value;
             if (currentHealth <= 0)
             {
-                AudioManager.PlayAudioClip(playerDeath);
+                AudioManager.PlayAudioClip(playerDeath, 1);
                 gameObject.GetComponent<PlayerMovement>().enabled = false;
                 GetComponent<Rigidbody2D>().isKinematic = true;
                 GetComponent<Rigidbody2D>().velocity = Vector2.zero;
@@ -38,7 +38,7 @@ public class PlayerHealth : MonoBehaviour
                 Invoke("EndGame", 5.0f);
             }
             else {
-                AudioManager.PlayAudioClip(playerAudio);
+                AudioManager.PlayAudioClip(playerAudio, 1);
             }
             HUDHandler.UpdateUI();
         }
