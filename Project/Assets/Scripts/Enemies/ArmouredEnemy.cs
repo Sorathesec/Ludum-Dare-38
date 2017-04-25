@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ArmouredEnemy : BasicZombie
 {
-
     public new void TakeDamage(int damage)
     {
         damage -= 5;

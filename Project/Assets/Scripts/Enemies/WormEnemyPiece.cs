@@ -23,7 +23,7 @@ public class WormEnemyPiece : ZombieHealth
 
     private WormLook look;
     private HingeJoint2D joint;
-    private MoveFoward move;
+    private new MoveFoward move;
     private new Rigidbody2D rigidbody;
 
     void Start()
@@ -38,11 +38,13 @@ public class WormEnemyPiece : ZombieHealth
 
     protected override void Die()
     {
-            ResetComponent();
-            gameObject.SetActive(false);
-            dead = true;
-            transform.parent.GetComponent<WormEnemy>().PieceDied(this);
-            enemyAudio.PlayOneShot(deathClip);
+        ResetComponent();
+        gameObject.SetActive(false);
+        dead = true;
+        transform.parent.GetComponent<WormEnemy>().PieceDied(this);
+        enemyAudio.PlayOneShot(deathClip);
+
+        Invoke("Disable", 0.5f);
     }
 
     public void KillMe()

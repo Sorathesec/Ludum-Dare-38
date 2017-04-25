@@ -16,7 +16,7 @@ public abstract class ZombieHealth : MonoBehaviour
     protected BoxCollider2D trigger;
     protected int health;
 
-    public void Awake()
+    void Awake()
     {
         enemyAudio = GetComponent<AudioSource>();
         renderer = GetComponent<SpriteRenderer>();

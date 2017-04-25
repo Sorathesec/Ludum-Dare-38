@@ -6,8 +6,6 @@ using Netaphous.Utilities;
 public abstract class BasicWeapon : BasicPoolManager
 {
     [SerializeField]
-    protected bool singleShot = true;
-    [SerializeField]
     protected float fireRate = 0.5f;
     [SerializeField]
     private int clipSize = 10;
@@ -28,15 +26,15 @@ public abstract class BasicWeapon : BasicPoolManager
     private bool reloading = false;
 
     // Use this for initialization
-    protected void Start ()
+    protected void Start()
     {
         CreatePool();
 
         bulletsInClip = clipSize;
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate ()
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
     {
         if (!reloading)
         {
@@ -44,16 +42,10 @@ public abstract class BasicWeapon : BasicPoolManager
             {
                 TryReload();
             }
-            else if (canFire)
+            else if (canFire && Input.GetMouseButton(0))
             {
-                if (singleShot)
-                {
-                    SingleShot();
-                }
-                else
-                {
-                    RapidShot();
-                }
+                AudioManager.PlayAudioClip(firingSound, audioVolume);
+                Fire();
             }
         }
     }
@@ -79,15 +71,6 @@ public abstract class BasicWeapon : BasicPoolManager
         Invoke("ReadyToFire", fireRate);
     }
 
-    private void SingleShot()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            AudioManager.PlayAudioClip(firingSound, audioVolume);
-            Fire();
-        }
-    }
-
     private void RapidShot()
     {
         if (Input.GetMouseButton(0))
@@ -104,7 +87,7 @@ public abstract class BasicWeapon : BasicPoolManager
 
     private void TryReload()
     {
-        if(Input.GetMouseButton(0) ||
+        if (Input.GetMouseButton(0) ||
             Input.GetKeyDown(reloadKey))
         {
             Invoke("Reload", reloadTime);
@@ -116,7 +99,6 @@ public abstract class BasicWeapon : BasicPoolManager
     private void Reload()
     {
         bulletsInClip = clipSize;
-        print("Reloaded");
         reloading = false;
     }
 }

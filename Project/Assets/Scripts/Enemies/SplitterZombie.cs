@@ -43,5 +43,7 @@ public class SplitterZombie : ZombieHealth
             obj.transform.position = new Vector2(transform.position.x + rndX, transform.position.y + rndY);
             obj.SetActive(true);
         }
+
+        Invoke("Disable", 0.5f);
     }
 }
